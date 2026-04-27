@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vishal — Full-Stack Developer</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg:      #f8f7ff;
+      --bg2:     #eeedf8;
+      --surface: #ffffff;
+      --border:  #dddcee;
+      --text:    #0f0f1a;
+      --muted:   #6b6a8a;
+      --accent:  #4a5af7;
+      --a2:      #7DF9FF;
+      --coral:   #FF6B6B;
+      --gold:    #FFD166;
+      --cglow:   rgba(74,90,247,0.08);
+    }
+    .dark {
+      --bg:      #0b0b16;
+      --bg2:     #0f0f1f;
+      --surface: #13131f;
+      --border:  #23233a;
+      --text:    #f0f0ff;
+      --muted:   #8888aa;
+      --accent:  #6b83ff;
+      --a2:      #7DF9FF;
+      --coral:   #FF6B6B;
+      --gold:    #FFD166;
+      --cglow:   rgba(107,131,255,0.12);
+    }
+    *{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);transition:background .4s,color .4s;overflow-x:hidden;}
+    h1,h2,h3,h4{font-family:'Syne',sans-serif;}
+
+    ::-webkit-scrollbar{width:5px;}
+    ::-webkit-scrollbar-track{background:transparent;}
+    ::-webkit-scrollbar-thumb{background:var(--accent);border-radius:10px;}
+
+    /* cursor glow */
+    #cg{position:fixed;pointer-events:none;z-index:9999;width:380px;height:380px;border-radius:50%;background:radial-gradient(circle,rgba(107,131,255,0.13) 0%,transparent 70%);transform:translate(-50%,-50%);transition:opacity .3s;}
+
+    /* noise */
+    body::before{content:'';position:fixed;inset:0;z-index:1;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");opacity:.4;}
+
+    /* mesh blobs */
+    .blob{position:absolute;border-radius:50%;filter:blur(80px);opacity:.35;animation:blobF 8s ease-in-out infinite alternate;}
+    .dark .blob{opacity:.22;}
+    @keyframes blobF{0%{transform:translate(0,0) scale(1);}50%{transform:translate(28px,-18px) scale(1.07);}100%{transform:translate(-18px,24px) scale(.94);}}
+
+    /* grid pattern */
+    .gp{background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);background-size:40px 40px;}
+
+    /* reveal */
+    .rev{opacity:0;transform:translateY(32px);transition:opacity .7s cubic-bezier(.22,1,.36,1),transform .7s cubic-bezier(.22,1,.36,1);}
+    .rev.vis{opacity:1;transform:none;}
+    .revL{opacity:0;transform:translateX(-36px);transition:opacity .7s cubic-bezier(.22,1,.36,1),transform .7s cubic-bezier(.22,1,.36,1);}
+    .revL.vis{opacity:1;transform:none;}
+    .d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}
+
+    /* marquee */
+    @keyframes mq{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
+    .mq-track{animation:mq 22s linear infinite;display:flex;width:max-content;}
+    .mq-track:hover{animation-play-state:paused;}
+
+    /* float label */
+    .fg{position:relative;}
+    .fg input,.fg textarea{width:100%;padding:1.3rem 1rem .5rem;background:transparent;border:1.5px solid var(--border);border-radius:.625rem;font-size:.95rem;font-family:'DM Sans',sans-serif;color:var(--text);outline:none;transition:border-color .25s,box-shadow .25s;}
+    .fg input:focus,.fg textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(107,131,255,.14);}
+    .fg label{position:absolute;left:1rem;top:50%;transform:translateY(-50%);font-size:.95rem;color:var(--muted);pointer-events:none;transition:all .22s cubic-bezier(.22,1,.36,1);font-family:'DM Sans',sans-serif;}
+    .fg textarea~label{top:1.3rem;transform:none;}
+    .fg input:focus~label,.fg input:not(:placeholder-shown)~label,
+    .fg textarea:focus~label,.fg textarea:not(:placeholder-shown)~label{top:.42rem;transform:none;font-size:.68rem;font-weight:600;letter-spacing:.05em;color:var(--accent);}
+    .fg.pg label{left:6.6rem;top:50%;transform:translateY(-50%);}
+    .fg.pg input:focus~label,.fg.pg input:not(:placeholder-shown)~label{top:.42rem;transform:none;left:1rem;font-size:.68rem;font-weight:600;letter-spacing:.05em;color:var(--accent);}
+    .psel{position:absolute;left:0;top:0;bottom:0;width:5.8rem;border-right:1.5px solid var(--border);border-radius:.625rem 0 0 .625rem;appearance:none;background:transparent;padding:0 .4rem 0 .75rem;font-family:'DM Sans',sans-serif;font-size:.88rem;color:var(--text);outline:none;cursor:pointer;}
+    .pi{padding-left:6.6rem!important;}
+
+    /* mobile menu */
+    #mm{max-height:0;overflow:hidden;transition:max-height .4s cubic-bezier(.22,1,.36,1);}
+    #mm.open{max-height:500px;}
+
+    /* modal */
+    #cmodal{opacity:0;transition:opacity .3s ease;pointer-events:none;position:fixed;inset:0;z-index:100;display:flex;align-items:flex-end;justify-content:center;}
+    #cmodal.active{opacity:1;pointer-events:all;}
+    .mpanel{transform:translateY(32px) scale(.97);transition:transform .38s cubic-bezier(.22,1,.36,1);}
+    #cmodal.active .mpanel{transform:none;}
+
+    /* nav link */
+    .nl{position:relative;text-decoration:none;}
+    .nl::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:linear-gradient(90deg,var(--accent),var(--a2));border-radius:2px;transition:width .3s ease;}
+    .nl:hover::after,.nl.active::after{width:100%;}
+
+    /* buttons */
+    .btn-p{background:linear-gradient(135deg,var(--accent),#5a6bff);color:#fff;border:none;position:relative;overflow:hidden;transition:transform .2s,box-shadow .2s;cursor:pointer;}
+    .btn-p::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.15),transparent);opacity:0;transition:opacity .2s;}
+    .btn-p:hover{transform:translateY(-2px) scale(1.02);box-shadow:0 8px 32px rgba(74,90,247,.4);}
+    .btn-p:hover::after{opacity:1;}
+    .btn-p:active{transform:scale(.98);}
+    .btn-g{background:transparent;border:1.5px solid var(--border);color:var(--text);transition:all .2s;cursor:pointer;}
+    .btn-g:hover{border-color:var(--accent);color:var(--accent);background:rgba(107,131,255,.06);}
+
+    /* glow hover card */
+    .gc{transition:border-color .3s,box-shadow .3s,transform .3s;}
+    .gc:hover{border-color:var(--accent)!important;box-shadow:0 0 0 1px var(--accent),0 8px 40px var(--cglow);transform:translateY(-4px);}
+
+    /* shimmer */
+    .sh{position:relative;overflow:hidden;}
+    .sh::before{content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.04),transparent);transform:skewX(-20deg);transition:left .6s ease;}
+    .sh:hover::before{left:150%;}
+
+    /* section label */
+    .sl{display:inline-flex;align-items:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--accent);}
+    .sl::before{content:'';display:block;width:18px;height:2px;background:linear-gradient(90deg,var(--accent),var(--a2));border-radius:2px;}
+
+    /* gradient text */
+    .gt{background:linear-gradient(135deg,var(--accent) 0%,var(--a2) 55%,var(--coral) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+
+    /* tag */
+    .tag{font-size:.68rem;font-weight:600;letter-spacing:.05em;padding:.2rem .6rem;border-radius:999px;background:rgba(107,131,255,.1);color:var(--accent);border:1px solid rgba(107,131,255,.2);}
+
+    /* skill pill */
+    .sp{display:inline-flex;align-items:center;padding:.28rem .7rem;border-radius:999px;font-size:.7rem;font-weight:600;border:1px solid var(--border);color:var(--muted);transition:all .2s;}
+    .sp:hover{border-color:var(--accent);color:var(--accent);background:rgba(107,131,255,.07);}
+
+    /* icon ring */
+    .ir{width:3rem;height:3rem;border-radius:50%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,rgba(107,131,255,.15),rgba(125,249,255,.1));border:1px solid rgba(107,131,255,.25);flex-shrink:0;transition:all .3s;}
+    .gc:hover .ir{background:linear-gradient(135deg,rgba(107,131,255,.3),rgba(125,249,255,.2));box-shadow:0 0 20px rgba(107,131,255,.3);}
+
+    /* stat card */
+    .sc{background:var(--surface);border:1px solid var(--border);border-radius:1rem;padding:1.25rem 1.5rem;position:relative;overflow:hidden;transition:transform .3s;}
+    .sc::after{content:'';position:absolute;top:0;left:0;width:100%;height:2px;background:linear-gradient(90deg,var(--accent),var(--a2));opacity:0;transition:opacity .3s;}
+    .sc:hover{transform:translateY(-3px);}
+    .sc:hover::after{opacity:1;}
+
+    /* typed cursor */
+    .tc{animation:blink .8s step-end infinite;}
+    @keyframes blink{0%,100%{opacity:1;}50%{opacity:0;}}
+
+    /* tilt */
+    .tilt{transition:transform .15s ease,box-shadow .3s ease;transform-style:preserve-3d;}
+
+    /* hero badge */
+    .hb{background:linear-gradient(135deg,rgba(107,131,255,.15) 0%,rgba(125,249,255,.08) 100%);border:1px solid rgba(107,131,255,.25);backdrop-filter:blur(8px);}
+
+    /* counter */
+    .cnt{font-variant-numeric:tabular-nums;}
+
+    /* toast */
+    #toast{position:fixed;bottom:2rem;right:2rem;z-index:9999;padding:1rem 1.25rem;border-radius:.75rem;font-size:.875rem;font-family:'DM Sans',sans-serif;display:flex;align-items:center;gap:.625rem;transform:translateY(80px);opacity:0;transition:all .4s cubic-bezier(.22,1,.36,1);max-width:320px;backdrop-filter:blur(12px);}
+    #toast.show{transform:translateY(0);opacity:1;}
+    #toast.ok{background:rgba(34,197,94,.15);border:1px solid rgba(34,197,94,.3);color:#4ade80;}
+    #toast.err{background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.3);color:#f87171;}
+
+    /* particles */
+    .part{position:absolute;border-radius:50%;pointer-events:none;animation:pdrift linear infinite;}
+    @keyframes pdrift{0%{transform:translateY(100vh) rotate(0deg);opacity:0;}10%{opacity:1;}90%{opacity:.6;}100%{transform:translateY(-100px) rotate(360deg);opacity:0;}}
+
+    /* utils */
+    .hidden{display:none!important;}
+    @keyframes spin{to{transform:rotate(360deg);}}
+    @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.4;}}
+    @keyframes bounce{0%,100%{transform:translateX(-50%) translateY(0);}50%{transform:translateX(-50%) translateY(-6px);}}
+
+    @media(min-width:640px){
+      .mpanel{border-radius:1.5rem!important;}
+      #cmodal{align-items:center;padding:1rem;}
+    }
+    @media(max-width:400px){
+      .hero-h1{font-size:2rem!important;}
+    }
+  </style>
+</head>
+<body>
+
+<!-- cursor glow -->
+<div id="cg"></div>
+
+<!-- toast -->
+<div id="toast">
+  <svg id="t-ic" style="width:16px;height:16px;flex-shrink:0;" fill="none" stroke="currentColor" viewBox="0 0 24 24"></svg>
+  <span id="t-msg"></span>
+</div>
+
+<!-- ═══ NAVBAR ═══════════════════════════════════════════════ -->
+<header id="nav" style="position:fixed;top:0;left:0;right:0;z-index:50;transition:all .3s;">
+  <div style="max-width:1152px;margin:0 auto;padding:0 1.5rem;">
+    <div style="display:flex;align-items:center;justify-content:space-between;height:62px;">
+
+      <a href="#hero" style="display:flex;align-items:center;gap:.375rem;text-decoration:none;">
+        <span style="font-family:Syne;font-weight:800;font-size:1.2rem;color:var(--text);">V</span>
+        <span style="font-family:Syne;font-weight:800;font-size:1.2rem;background:linear-gradient(135deg,var(--accent),var(--a2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;">ishal</span>
+        <span style="width:6px;height:6px;border-radius:50%;background:#4ade80;animation:pulse 2s infinite;flex-shrink:0;"></span>
+      </a>
+
+      <nav style="display:none;" id="desknav">
+        <div style="display:flex;align-items:center;gap:1.75rem;">
+          <a href="#services" class="nl" style="font-size:.875rem;font-weight:500;color:var(--muted);transition:color .2s;" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--muted)'">Services</a>
+          <a href="#projects" class="nl" style="font-size:.875rem;font-weight:500;color:var(--muted);transition:color .2s;" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--muted)'">Projects</a>
+          <a href="#why-me"   class="nl" style="font-size:.875rem;font-weight:500;color:var(--muted);transition:color .2s;" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--muted)'">Why Me</a>
+          <a href="#about"    class="nl" style="font-size:.875rem;font-weight:500;color:var(--muted);transition:color .2s;" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--muted)'">About</a>
+          <a href="#contact"  class="nl" style="font-size:.875rem;font-weight:500;color:var(--muted);transition:color .2s;" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--muted)'">Contact</a>
+        </div>
+      </nav>
+
+      <div style="display:flex;align-items:center;gap:.625rem;">
+        <button onclick="toggleTheme()" style="width:36px;height:36px;border-radius:50%;border:1.5px solid var(--border);background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--muted);transition:all .2s;" aria-label="Toggle theme">
+          <svg id="sun-ic" class="hidden" style="width:15px;height:15px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><path stroke-linecap="round" d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+          <svg id="moon-ic" style="width:15px;height:15px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+        </button>
+        <button onclick="openModal()" class="btn-p" id="nav-cta" style="display:none;align-items:center;gap:.4rem;padding:.5rem 1.125rem;border-radius:999px;font-family:Syne;font-size:.85rem;font-weight:700;">
+          Let's Talk <svg style="width:13px;height:13px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+        </button>
+        <button onclick="toggleMenu()" style="width:36px;height:36px;border-radius:50%;border:1.5px solid var(--border);background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--muted);" id="hbtn">
+          <svg style="width:15px;height:15px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div id="mm" style="background:var(--surface);border-top:1px solid var(--border);">
+    <div style="padding:1rem 1.5rem;display:flex;flex-direction:column;gap:.25rem;">
+      <a href="#services" onclick="closeMenu()" style="padding:.6rem 0;color:var(--muted);text-decoration:none;font-size:.9rem;border-bottom:1px solid var(--border);">Services</a>
+      <a href="#projects" onclick="closeMenu()" style="padding:.6rem 0;color:var(--muted);text-decoration:none;font-size:.9rem;border-bottom:1px solid var(--border);">Projects</a>
+      <a href="#why-me"   onclick="closeMenu()" style="padding:.6rem 0;color:var(--muted);text-decoration:none;font-size:.9rem;border-bottom:1px solid var(--border);">Why Me</a>
+      <a href="#about"    onclick="closeMenu()" style="padding:.6rem 0;color:var(--muted);text-decoration:none;font-size:.9rem;border-bottom:1px solid var(--border);">About</a>
+      <a href="#contact"  onclick="closeMenu()" style="padding:.6rem 0;color:var(--muted);text-decoration:none;font-size:.9rem;">Contact</a>
+      <button onclick="openModal();closeMenu();" class="btn-p" style="margin-top:.75rem;width:100%;padding:.875rem;border-radius:.75rem;font-family:Syne;font-size:.9rem;font-weight:700;">Let's Talk →</button>
+    </div>
+  </div>
+</header>
+
+
+<!-- ═══ HERO ═════════════════════════════════════════════════ -->
+<section id="hero" style="min-height:100vh;display:flex;flex-direction:column;justify-content:center;position:relative;overflow:hidden;padding-top:80px;">
+  <div class="blob" style="width:580px;height:580px;top:-80px;right:-120px;background:radial-gradient(circle,rgba(107,131,255,.55),transparent);"></div>
+  <div class="blob" style="width:480px;height:480px;bottom:-40px;left:-80px;background:radial-gradient(circle,rgba(125,249,255,.38),transparent);animation-delay:-3s;"></div>
+  <div class="blob" style="width:320px;height:320px;top:45%;left:38%;background:radial-gradient(circle,rgba(255,107,107,.28),transparent);animation-delay:-5s;animation-duration:10s;"></div>
+  <div class="gp" style="position:absolute;inset:0;opacity:.4;z-index:0;"></div>
+
+  <div style="max-width:1152px;margin:0 auto;padding:4rem 1.5rem 3rem;position:relative;z-index:2;">
+    <div style="max-width:760px;">
+      <div class="rev hb" style="display:inline-flex;align-items:center;gap:.5rem;padding:.4rem 1rem;border-radius:999px;margin-bottom:1.75rem;">
+        <span style="width:7px;height:7px;border-radius:50%;background:#4ade80;animation:pulse 2s infinite;"></span>
+        <span style="font-size:.75rem;font-family:Syne;font-weight:600;letter-spacing:.06em;color:var(--muted);">Available for new projects</span>
+      </div>
+
+      <h1 class="rev d1 hero-h1" style="font-family:Syne;font-weight:800;font-size:clamp(2.2rem,6vw,4.75rem);line-height:1.04;letter-spacing:-.03em;color:var(--text);margin-bottom:1.25rem;">
+        I build <span class="gt">fast, modern</span><br/>
+        websites &amp; web apps<br/>
+        for <em style="font-style:italic;font-weight:400;">businesses</em>
+      </h1>
+
+      <p class="rev d2" style="font-size:clamp(.95rem,2.2vw,1.15rem);color:var(--muted);max-width:540px;line-height:1.75;margin-bottom:2.25rem;">
+        Performance-first development. Interfaces that convert.<br/>
+        <span id="typed" style="color:var(--text);font-weight:500;"></span><span class="tc" style="color:var(--accent);">|</span>
+      </p>
+
+      <div class="rev d3" style="display:flex;flex-wrap:wrap;gap:1rem;margin-bottom:3.5rem;">
+        <button onclick="openModal()" class="btn-p" style="display:flex;align-items:center;gap:.5rem;padding:.875rem 1.75rem;border-radius:999px;font-family:Syne;font-size:.95rem;font-weight:700;">
+          Get Your Website <svg style="width:15px;height:15px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+        </button>
+        <a href="#projects" class="btn-g" style="display:inline-flex;align-items:center;gap:.5rem;padding:.875rem 1.75rem;border-radius:999px;font-family:Syne;font-size:.95rem;font-weight:700;text-decoration:none;">
+          See My Work <svg style="width:15px;height:15px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+        </a>
+      </div>
+
+      <div class="rev d4" style="display:flex;flex-wrap:wrap;gap:2.5rem;padding-top:2rem;border-top:1px solid var(--border);">
+        <div>
+          <p class="cnt" data-target="3" style="font-family:Syne;font-weight:800;font-size:1.875rem;color:var(--text);">0</p>
+          <p style="font-size:.72rem;color:var(--muted);margin-top:.2rem;">Shipped Projects</p>
+        </div>
+        <div>
+          <p style="font-family:Syne;font-weight:800;font-size:1.875rem;color:var(--text);">MERN</p>
+          <p style="font-size:.72rem;color:var(--muted);margin-top:.2rem;">+ Next.js Stack</p>
+        </div>
+        <div>
+          <p class="gt" style="font-family:Syne;font-weight:800;font-size:1.875rem;">Fast</p>
+          <p style="font-size:.72rem;color:var(--muted);margin-top:.2rem;">Delivery Always</p>
+        </div>
+        <div>
+          <p class="cnt" data-target="100" data-suffix="%" style="font-family:Syne;font-weight:800;font-size:1.875rem;color:var(--text);">0</p>
+          <p style="font-size:.72rem;color:var(--muted);margin-top:.2rem;">Committed</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);z-index:2;display:flex;flex-direction:column;align-items:center;gap:.35rem;animation:bounce 2s infinite;">
+    <span style="font-size:.62rem;letter-spacing:.14em;color:var(--muted);font-family:Syne;text-transform:uppercase;">Scroll</span>
+    <svg style="width:14px;height:14px;color:var(--muted);" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+  </div>
+</section>
+
+
+<!-- ═══ MARQUEE ══════════════════════════════════════════════ -->
+<div style="border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--surface);padding:.875rem 0;overflow:hidden;position:relative;z-index:2;">
+  <div class="mq-track" style="user-select:none;">
+    <span id="mq1" style="display:flex;align-items:center;gap:2rem;padding:0 1rem;"></span>
+    <span id="mq2" aria-hidden="true" style="display:flex;align-items:center;gap:2rem;padding:0 1rem;"></span>
+  </div>
+</div>
+
+
+<!-- ═══ SERVICES ════════════════════════════════════════════ -->
+<section id="services" style="padding:6rem 0;position:relative;">
+  <div style="max-width:1152px;margin:0 auto;padding:0 1.5rem;">
+    <div style="margin-bottom:3.5rem;">
+      <div class="rev sl" style="margin-bottom:.875rem;">What I Do</div>
+      <div style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:1rem;">
+        <h2 class="rev d1" style="font-family:Syne;font-weight:800;font-size:clamp(1.875rem,4vw,3rem);color:var(--text);line-height:1.1;">Services I offer</h2>
+        <p class="rev d2" style="font-size:.875rem;color:var(--muted);max-width:260px;text-align:right;line-height:1.7;">Every project built with purpose, precision, and performance.</p>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.25rem;">
+      <!-- S1 -->
+      <div class="rev gc sh tilt" style="background:var(--surface);border:1px solid var(--border);border-radius:1.25rem;padding:2rem;position:relative;overflow:hidden;">
+        <div style="position:absolute;top:-40px;right:-40px;width:120px;height:120px;background:radial-gradient(circle,rgba(107,131,255,.1),transparent);border-radius:50%;"></div>
+        <div style="width:46px;height:46px;background:linear-gradient(135deg,rgba(107,131,255,.2),rgba(125,249,255,.1));border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:1.25rem;border:1px solid rgba(107,131,255,.2);">
+          <svg style="width:21px;height:21px;color:var(--accent);" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+        </div>
+        <h3 style="font-family:Syne;font-weight:700;font-size:1.1rem;color:var(--text);margin-bottom:.625rem;">Landing Pages</h3>
+        <p style="font-size:.85rem;color:var(--muted);line-height:1.75;margin-bottom:1.125rem;">High-converting, mobile-first pages designed to turn visitors into customers. Fast, beautiful, built for results.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:.35rem;"><span class="sp">Responsive</span><span class="sp">SEO-ready</span><span class="sp">Conversion</span></div>
+      </div>
+
+      <!-- S2 featured -->
+      <div class="rev d1 gc sh tilt" style="background:linear-gradient(135deg,#1a1a2e,#16162a);border:1px solid rgba(107,131,255,.3);border-radius:1.25rem;padding:2rem;position:relative;overflow:hidden;">
+        <div style="position:absolute;top:0;left:0;width:100%;height:2px;background:linear-gradient(90deg,var(--accent),var(--a2),var(--coral));"></div>
+        <div style="position:absolute;top:-50px;right:-50px;width:150px;height:150px;background:radial-gradient(circle,rgba(125,249,255,.13),transparent);border-radius:50%;"></div>
+        <div style="width:46px;height:46px;background:linear-gradient(135deg,rgba(107,131,255,.3),rgba(125,249,255,.15));border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:1.25rem;border:1px solid rgba(107,131,255,.3);">
+          <svg style="width:21px;height:21px;color:#7DF9FF;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+        </div>
+        <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.625rem;">
+          <h3 style="font-family:Syne;font-weight:700;font-size:1.1rem;color:#f0f0ff;">Business Websites</h3>
+          <span style="font-size:.62rem;font-family:Syne;font-weight:700;letter-spacing:.08em;background:linear-gradient(135deg,var(--accent),var(--a2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;border:1px solid rgba(107,131,255,.3);padding:.12rem .45rem;border-radius:999px;">POPULAR</span>
+        </div>
+        <p style="font-size:.85rem;color:#8888aa;line-height:1.75;margin-bottom:1.125rem;">Complete multi-page websites — portfolios, service pages, contact forms, everything to launch with confidence.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:.35rem;">
+          <span style="font-size:.68rem;font-weight:600;padding:.25rem .65rem;border-radius:999px;border:1px solid rgba(125,249,255,.2);color:var(--a2);">Multi-page</span>
+          <span style="font-size:.68rem;font-weight:600;padding:.25rem .65rem;border-radius:999px;border:1px solid rgba(125,249,255,.2);color:var(--a2);">CMS-ready</span>
+          <span style="font-size:.68rem;font-weight:600;padding:.25rem .65rem;border-radius:999px;border:1px solid rgba(125,249,255,.2);color:var(--a2);">Full design</span>
+        </div>
+      </div>
+
+      <!-- S3 -->
+      <div class="rev d2 gc sh tilt" style="background:var(--surface);border:1px solid var(--border);border-radius:1.25rem;padding:2rem;position:relative;overflow:hidden;">
+        <div style="position:absolute;top:-40px;right:-40px;width:120px;height:120px;background:radial-gradient(circle,rgba(255,107,107,.1),transparent);border-radius:50%;"></div>
+        <div style="width:46px;height:46px;background:linear-gradient(135deg,rgba(255,107,107,.15),rgba(255,209,102,.1));border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:1.25rem;border:1px solid rgba(255,107,107,.2);">
+          <svg style="width:21px;height:21px;color:var(--coral);" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
+        </div>
+        <h3 style="font-family:Syne;font-weight:700;font-size:1.1rem;color:var(--text);margin-bottom:.625rem;">Web Applications</h3>
+        <p style="font-size:.85rem;color:var(--muted);line-height:1.75;margin-bottom:1.125rem;">Full-stack MERN &amp; Next.js apps with authentication, real-time features, and production-ready architecture.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:.35rem;"><span class="sp">MERN</span><span class="sp">Next.js</span><span class="sp">Full-Stack</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══ PROJECTS ═════════════════════════════════════════════ -->
+<section id="projects" style="padding:6rem 0;background:var(--bg2);position:relative;overflow:hidden;">
+  <div style="position:absolute;right:-180px;top:50%;transform:translateY(-50%);width:580px;height:580px;border-radius:50%;border:1px solid var(--border);opacity:.35;pointer-events:none;"></div>
+  <div style="position:absolute;right:-230px;top:50%;transform:translateY(-50%);width:780px;height:780px;border-radius:50%;border:1px solid var(--border);opacity:.18;pointer-events:none;"></div>
+
+  <div style="max-width:1152px;margin:0 auto;padding:0 1.5rem;position:relative;z-index:1;">
+    <div style="margin-bottom:3.5rem;">
+      <div class="rev sl" style="margin-bottom:.875rem;">Portfolio</div>
+      <div style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:1rem;">
+        <h2 class="rev d1" style="font-family:Syne;font-weight:800;font-size:clamp(1.875rem,4vw,3rem);color:var(--text);line-height:1.1;">Selected<br/>projects</h2>
+        <p class="rev d2" style="font-size:.875rem;color:var(--muted);max-width:260px;line-height:1.7;">Real complexity. Real solutions. Real results.</p>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:1.25rem;">
+
+      <!-- P1 -->
+      <div class="rev gc sh" style="background:var(--surface);border:1px solid var(--border);border-radius:1.25rem;padding:1.75rem 2rem;display:flex;flex-wrap:wrap;gap:1.5rem;align-items:flex-start;">
+        <div style="width:54px;height:54px;background:linear-gradient(135deg,#1a1a2e,#2a2a4a);border-radius:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;border:1px solid rgba(107,131,255,.25);">
+          <svg style="width:24px;height:24px;" fill="none" stroke="url(#g1)" viewBox="0 0 24 24"><defs><linearGradient id="g1" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#6b83ff"/><stop offset="100%" stop-color="#7DF9FF"/></linearGradient></defs><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+        </div>
+        <div style="flex:1;min-width:240px;">
+          <div style="display:flex;flex-wrap:wrap;align-items:center;gap:.625rem;margin-bottom:.5rem;">
+            <h3 style="font-family:Syne;font-weight:700;font-size:1.1rem;color:var(--text);">MERN Social Platform</h3>
+            <span class="tag">Full-Stack</span>
+          </div>
+          <p style="font-size:.85rem;color:var(--muted);line-height:1.8;margin-bottom:.875rem;">Full-featured social networking app. Real-time messaging via Socket.io, push notifications, user profiles, follow/unfollow, and a scrollable feed — secured with JWT auth.</p>
+          <div style="display:flex;flex-wrap:wrap;gap:.35rem;margin-bottom:1.125rem;"><span class="sp">React</span><span class="sp">Node.js</span><span class="sp">MongoDB</span><span class="sp">Socket.io</span><span class="sp">JWT</span></div>
+          <div style="display:flex;gap:1rem;">
+            <a href="#" style="display:flex;align-items:center;gap:.35rem;font-size:.78rem;font-family:Syne;font-weight:700;color:var(--muted);text-decoration:none;transition:color .2s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--muted)'"><svg style="width:13px;height:13px;" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>GitHub</a>
+            <a href="#" style="display:flex;align-items:center;gap:.35rem;font-size:.78rem;font-family:Syne;font-weight:700;color:var(--muted);text-decoration:none;transition:color .2s;" onmouseover="this.style.color='var(--a2)'" onmouseout="this.style.color='var(--muted)'"><svg style="width:13px;height:13px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>Live Demo</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- P2 -->
+      <div class="rev d1 gc sh" style="background:var(--surface);border:1px solid var(--border);border-radius:1.25rem;padding:1.75rem 2rem;display:flex;flex-wrap:wrap;gap:1.5rem;align-items:flex-start;">
+        <div style="width:54px;height:54px;background:linear-gradient(135deg,#1a2e1a,#1a3a2a);border-radius:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;border:1px solid rgba(255,209,102,.2);">
+          <svg style="width:24px;height:24px;" fill="none" stroke="url(#g2)" viewBox="0 0 24 24"><defs><linearGradient id="g2" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#FFD166"/><stop offset="100%" stop-color="#FF6B6B"/></linearGradient></defs><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+        </div>
+        <div style="flex:1;min-width:240px;">
+          <div style="display:flex;flex-wrap:wrap;align-items:center;gap:.625rem;margin-bottom:.5rem;">
+            <h3 style="font-family:Syne;font-weight:700;font-size:1.1rem;color:var(--text);">Next.js Blog App</h3>
+            <span class="tag" style="background:rgba(255,209,102,.1);color:var(--gold);border-color:rgba(255,209,102,.2);">Next.js</span>
+          </div>
+          <p style="font-size:.85rem;color:var(--muted);line-height:1.8;margin-bottom:.875rem;">Production-ready blog with NextAuth, full CRUD, email notifications via Nodemailer, and SSR/SSG hybrid architecture for blazing performance.</p>
+          <div style="display:flex;flex-wrap:wrap;gap:.35rem;margin-bottom:1.125rem;"><span class="sp">Next.js</span><span class="sp">NextAuth</span><span class="sp">MongoDB</span><span class="sp">Nodemailer</span><span class="sp">Tailwind</span></div>
+          <div style="display:flex;gap:1rem;">
+            <a href="#" style="display:flex;align-items:center;gap:.35rem;font-size:.78rem;font-family:Syne;font-weight:700;color:var(--muted);text-decoration:none;transition:color .2s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--muted)'"><svg style="width:13px;height:13px;" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>GitHub</a>
+            <a href="#" style="display:flex;align-items:center;gap:.35rem;font-size:.78rem;font-family:Syne;font-weight:700;color:var(--muted);text-decoration:none;transition:color .2s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--muted)'"><svg style="width:13px;height:13px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>Live Demo</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- P3 -->
+      <div class="rev d2 gc sh" style="background:var(--surface);border:1px solid var(--border);border-radius:1.25rem;padding:1.75rem 2rem;display:flex;flex-wrap:wrap;gap:1.5rem;align-items:flex-start;">
+        <div style="width:54px;height:54px;background:linear-gradient(135deg,#2e1a1a,#3a1a2a);border-radius:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;border:1px solid rgba(255,107,107,.2);">
+          <svg style="width:24px;height:24px;" fill="none" stroke="url(#g3)" viewBox="0 0 24 24"><defs><linearGradient id="g3" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#FF6B6B"/><stop offset="100%" stop-color="#FFD166"/></linearGradient></defs><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+        </div>
+        <div style="flex:1;min-width:240px;">
+          <div style="display:flex;flex-wrap:wrap;align-items:center;gap:.625rem;margin-bottom:.5rem;">
+            <h3 style="font-family:Syne;font-weight:700;font-size:1.1rem;color:var(--text);">Memories App</h3>
+            <span class="tag" style="background:rgba(255,107,107,.1);color:var(--coral);border-color:rgba(255,107,107,.2);">MERN</span>
+          </div>
+          <p style="font-size:.85rem;color:var(--muted);line-height:1.8;margin-bottom:.875rem;">Photo memory-sharing app: upload images, write captions, interact with others' posts. Cloudinary for storage, Redux for state, clean responsive UI.</p>
+          <div style="display:flex;flex-wrap:wrap;gap:.35rem;margin-bottom:1.125rem;"><span class="sp">React</span><span class="sp">Redux</span><span class="sp">Cloudinary</span><span class="sp">Express</span><span class="sp">MongoDB</span></div>
+          <div style="display:flex;gap:1rem;">
+            <a href="#" style="display:flex;align-items:center;gap:.35rem;font-size:.78rem;font-family:Syne;font-weight:700;color:var(--muted);text-decoration:none;transition:color .2s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--muted)'"><svg style="width:13px;height:13px;" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>GitHub</a>
+            <a href="#" style="display:flex;align-items:center;gap:.35rem;font-size:.78rem;font-family:Syne;font-weight:700;color:var(--muted);text-decoration:none;transition:color .2s;" onmouseover="this.style.color='var(--coral)'" onmouseout="this.style.color='var(--muted)'"><svg style="width:13px;height:13px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>Live Demo</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══ WHY ME ════════════════════════════════════════════════ -->
+<section id="why-me" style="padding:6rem 0;position:relative;">
+  <div style="max-width:1152px;margin:0 auto;padding:0 1.5rem;">
+    <div style="margin-bottom:3.5rem;">
+      <div class="rev sl" style="margin-bottom:.875rem;">The Advantage</div>
+      <h2 class="rev d1" style="font-family:Syne;font-weight:800;font-size:clamp(1.875rem,4vw,3rem);color:var(--text);line-height:1.1;">Why work<br/>with me?</h2>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(255px,1fr));gap:1.25rem;">
+
+      <div class="rev gc" style="background:var(--surface);border:1px solid var(--border);border-radius:1.25rem;padding:1.75rem;display:flex;gap:.875rem;align-items:flex-start;">
+        <div class="ir"><svg style="width:19px;height:19px;color:var(--accent);" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg></div>
+        <div><h3 style="font-family:Syne;font-weight:700;font-size:1rem;color:var(--text);margin-bottom:.4rem;">Fast Delivery</h3><p style="font-size:.83rem;color:var(--muted);line-height:1.75;">No bloated timelines. Your project ships on schedule, every time — without sacrificing quality.</p></div>
+      </div>
+
+      <div class="rev d1 gc" style="background:var(--surface);border:1px solid var(--border);border-radius:1.25rem;padding:1.75rem;display:flex;gap:.875rem;align-items:flex-start;">
+        <div class="ir"><svg style="width:19px;height:19px;color:var(--a2);" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"/></svg></div>
+        <div><h3 style="font-family:Syne;font-weight:700;font-size:1rem;color:var(--text);margin-bottom:.4rem;">Modern UI Design</h3><p style="font-size:.83rem;color:var(--muted);line-height:1.75;">Clean, thoughtful interfaces that look premium and feel intuitive. Design drives conversion.</p></div>
+      </div>
+
+      <div class="rev d2 gc" style="background:var(--surface);border:1px solid var(--border);border-radius:1.25rem;padding:1.75rem;display:flex;gap:.875rem;align-items:flex-start;">
+        <div class="ir"><svg style="width:19px;height:19px;color:var(--gold);" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
+        <div><h3 style="font-family:Syne;font-weight:700;font-size:1rem;color:var(--text);margin-bottom:.4rem;">Affordable Pricing</h3><p style="font-size:.83rem;color:var(--muted);line-height:1.75;">Agency-quality at freelancer rates. Get what you need without paying for overhead you don't.</p></div>
+      </div>
+
+      <div class="rev d3 gc" style="background:var(--surface);border:1px solid var(--border);border-radius:1.25rem;padding:1.75rem;display:flex;gap:.875rem;align-items:flex-start;">
+        <div class="ir"><svg style="width:19px;height:19px;color:var(--coral);" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/></svg></div>
+        <div><h3 style="font-family:Syne;font-weight:700;font-size:1rem;color:var(--text);margin-bottom:.4rem;">Real-World Experience</h3><p style="font-size:.83rem;color:var(--muted);line-height:1.75;">Internship experience + real shipped projects. I've solved real problems — not just tutorials.</p></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══ ABOUT ══════════════════════════════════════════════════ -->
+<section id="about" style="padding:6rem 0;background:linear-gradient(135deg,#0b0b1a 0%,#0f0f2a 50%,#0a0a18 100%);position:relative;overflow:hidden;">
+  <div class="gp" style="position:absolute;inset:0;opacity:.15;"></div>
+  <div class="blob" style="width:480px;height:480px;top:-40px;right:-80px;background:radial-gradient(circle,rgba(107,131,255,.2),transparent);"></div>
+  <div class="blob" style="width:380px;height:380px;bottom:-40px;left:-60px;background:radial-gradient(circle,rgba(125,249,255,.12),transparent);animation-delay:-4s;"></div>
+
+  <div style="max-width:1152px;margin:0 auto;padding:0 1.5rem;position:relative;z-index:1;">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:4rem;align-items:center;">
+
+      <div>
+        <div class="rev sl" style="margin-bottom:1rem;">About Me</div>
+        <h2 class="rev d1" style="font-family:Syne;font-weight:800;font-size:clamp(1.875rem,4vw,3.25rem);color:#f0f0ff;line-height:1.1;margin-bottom:1.5rem;">Hi, I'm<br/><span class="gt" style="font-style:italic;">Vishal.</span></h2>
+        <div class="rev d2" style="display:flex;flex-direction:column;gap:.875rem;font-size:.88rem;color:#8888aa;line-height:1.85;margin-bottom:2rem;">
+          <p>I'm a full-stack developer building modern web applications with the MERN stack and Next.js. I focus on clean, scalable code that solves real problems — not just code that looks good on a portfolio.</p>
+          <p>From social platforms to content management systems, I've built and shipped real projects with internship-level experience. I know what clients need: fast, professional, and reliable.</p>
+          <p>When I'm not coding, I'm learning — keeping up with the latest to make sure every project uses modern best practices.</p>
+        </div>
+        <div class="rev d3">
+          <button onclick="openModal()" class="btn-p" style="display:inline-flex;align-items:center;gap:.5rem;padding:.875rem 1.75rem;border-radius:999px;font-family:Syne;font-size:.9rem;font-weight:700;">
+            Work with me <svg style="width:14px;height:14px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="rev d2">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:.875rem;margin-bottom:.875rem;">
+          <div class="sc" style="background:rgba(255,255,255,.04);"><p class="cnt" data-target="3" style="font-family:Syne;font-weight:800;font-size:1.875rem;color:#f0f0ff;">0</p><p style="font-size:.7rem;color:#8888aa;margin-top:.2rem;">Shipped Projects</p></div>
+          <div class="sc" style="background:rgba(255,255,255,.04);"><p style="font-family:Syne;font-weight:800;font-size:1.875rem;color:#f0f0ff;">MERN</p><p style="font-size:.7rem;color:#8888aa;margin-top:.2rem;">Primary Stack</p></div>
+          <div class="sc" style="background:rgba(255,255,255,.04);"><p style="font-family:Syne;font-weight:800;font-size:1.875rem;color:#f0f0ff;">Next.js</p><p style="font-size:.7rem;color:#8888aa;margin-top:.2rem;">+ React Expert</p></div>
+          <div class="sc" style="background:rgba(107,131,255,.08);border-color:rgba(107,131,255,.2);"><p class="gt" style="font-family:Syne;font-weight:800;font-size:1.875rem;">100%</p><p style="font-size:.7rem;color:#8888aa;margin-top:.2rem;">Commitment</p></div>
+        </div>
+        <div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:1rem;padding:1.25rem;" id="stack-box"></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══ CONTACT ════════════════════════════════════════════════ -->
+<section id="contact" style="padding:6rem 0;position:relative;overflow:hidden;">
+  <div class="blob" style="width:380px;height:380px;top:-40px;right:-80px;background:radial-gradient(circle,rgba(107,131,255,.1),transparent);"></div>
+  <div style="max-width:680px;margin:0 auto;padding:0 1.5rem;position:relative;z-index:1;">
+    <div style="text-align:center;margin-bottom:2.5rem;">
+      <div class="rev sl" style="justify-content:center;margin-bottom:.875rem;">Get In Touch</div>
+      <h2 class="rev d1" style="font-family:Syne;font-weight:800;font-size:clamp(1.875rem,4vw,3rem);color:var(--text);line-height:1.1;margin-bottom:.875rem;">Let's build something<br/><span class="gt" style="font-style:italic;">together</span></h2>
+      <p class="rev d2" style="font-size:.9rem;color:var(--muted);line-height:1.75;">Have a project in mind? Fill out the form and I'll get back to you within 24 hours.</p>
+    </div>
+
+    <div class="rev d2" style="background:var(--surface);border:1px solid var(--border);border-radius:1.5rem;padding:2rem;box-shadow:0 20px 60px rgba(0,0,0,.06);">
+      <form id="cf" onsubmit="handleSubmit(event,'cf')" novalidate>
+        <div style="display:flex;flex-direction:column;gap:1.125rem;">
+          <div class="fg"><input type="text" id="cf-name" name="name" placeholder=" " required/><label for="cf-name">Full Name</label></div>
+          <div class="fg"><input type="email" id="cf-email" name="email" placeholder=" " required/><label for="cf-email">Email Address</label></div>
+          <div class="fg pg" style="position:relative;">
+            <select class="psel" id="cf-cc"><option value="+91" selected>🇮🇳 +91</option><option value="+1">🇺🇸 +1</option><option value="+44">🇬🇧 +44</option><option value="+61">🇦🇺 +61</option><option value="+971">🇦🇪 +971</option><option value="+65">🇸🇬 +65</option><option value="+49">🇩🇪 +49</option><option value="+33">🇫🇷 +33</option></select>
+            <input type="tel" id="cf-phone" class="pi" placeholder=" "/><label for="cf-phone">Phone Number (optional)</label>
+          </div>
+          <div class="fg"><textarea id="cf-msg" rows="4" placeholder=" " required style="resize:none;"></textarea><label for="cf-msg">Your Message</label></div>
+          <button type="submit" id="cf-btn" class="btn-p" style="width:100%;display:flex;align-items:center;justify-content:center;gap:.5rem;padding:1rem;border-radius:.875rem;font-family:Syne;font-size:.95rem;font-weight:700;border:none;">
+            <span id="cf-txt">Send Message</span>
+            <svg id="cf-arr" style="width:16px;height:16px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            <svg id="cf-spin" class="hidden" style="width:16px;height:16px;animation:spin 1s linear infinite;" fill="none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" style="opacity:.25"/><path fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" style="opacity:.75"/></svg>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══ FOOTER ════════════════════════════════════════════════ -->
+<footer style="background:#07070f;border-top:1px solid rgba(255,255,255,.05);padding:3rem 0 2rem;">
+  <div style="max-width:1152px;margin:0 auto;padding:0 1.5rem;">
+    <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:1.5rem;margin-bottom:2rem;padding-bottom:2rem;border-bottom:1px solid rgba(255,255,255,.05);">
+      <div>
+        <div style="display:flex;align-items:center;gap:.375rem;margin-bottom:.35rem;">
+          <span style="font-family:Syne;font-weight:800;font-size:1.2rem;color:#f0f0ff;">Vishal</span>
+          <span style="width:6px;height:6px;border-radius:50%;background:var(--coral);"></span>
+        </div>
+        <p style="font-size:.78rem;color:#555577;">Full-Stack Developer · MERN &amp; Next.js</p>
+        <a href="mailto:vishal@example.com" style="font-size:.78rem;color:#8888aa;text-decoration:none;display:block;margin-top:.2rem;transition:color .2s;" onmouseover="this.style.color='var(--a2)'" onmouseout="this.style.color='#8888aa'">vishal@example.com</a>
+      </div>
+      <div style="display:flex;align-items:center;gap:.625rem;">
+        <a href="#" aria-label="GitHub" style="width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.03);display:flex;align-items:center;justify-content:center;color:#555577;text-decoration:none;transition:all .2s;" onmouseover="this.style.color='var(--accent)';this.style.borderColor='rgba(107,131,255,.4)'" onmouseout="this.style.color='#555577';this.style.borderColor='rgba(255,255,255,.07)'"><svg style="width:15px;height:15px;" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg></a>
+        <a href="#" aria-label="LinkedIn" style="width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.03);display:flex;align-items:center;justify-content:center;color:#555577;text-decoration:none;transition:all .2s;" onmouseover="this.style.color='var(--a2)';this.style.borderColor='rgba(125,249,255,.4)'" onmouseout="this.style.color='#555577';this.style.borderColor='rgba(255,255,255,.07)'"><svg style="width:15px;height:15px;" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+        <a href="mailto:vishal@example.com" aria-label="Email" style="width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.03);display:flex;align-items:center;justify-content:center;color:#555577;text-decoration:none;transition:all .2s;" onmouseover="this.style.color='var(--coral)';this.style.borderColor='rgba(255,107,107,.4)'" onmouseout="this.style.color='#555577';this.style.borderColor='rgba(255,255,255,.07)'"><svg style="width:15px;height:15px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg></a>
+      </div>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.5rem;">
+      <p style="font-size:.72rem;color:#333355;">© 2025 Vishal. All rights reserved.</p>
+      <p style="font-size:.72rem;color:#333355;">Built with precision · Designed for conversion</p>
+    </div>
+  </div>
+</footer>
+
+
+<!-- ═══ MODAL ══════════════════════════════════════════════════ -->
+<div id="cmodal">
+  <div onclick="closeModal()" style="position:absolute;inset:0;background:rgba(5,5,15,.78);backdrop-filter:blur(7px);"></div>
+  <div class="mpanel" style="position:relative;width:100%;max-width:520px;background:var(--surface);border:1px solid var(--border);border-radius:1.5rem 1.5rem 0 0;padding:2rem;z-index:1;max-height:92vh;overflow-y:auto;">
+    <div style="width:38px;height:4px;border-radius:2px;background:var(--border);margin:0 auto 1.5rem;"></div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;">
+      <div><h3 style="font-family:Syne;font-weight:800;font-size:1.3rem;color:var(--text);">Let's work together</h3><p style="font-size:.75rem;color:var(--muted);margin-top:.15rem;">I'll respond within 24 hours</p></div>
+      <button onclick="closeModal()" style="width:30px;height:30px;border-radius:50%;border:1px solid var(--border);background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--muted);transition:all .2s;" onmouseover="this.style.borderColor='var(--coral)';this.style.color='var(--coral)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">
+        <svg style="width:13px;height:13px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <form id="mf" onsubmit="handleSubmit(event,'mf')" novalidate>
+      <div style="display:flex;flex-direction:column;gap:1rem;">
+        <div class="fg"><input type="text" id="mf-name" name="name" placeholder=" " required/><label for="mf-name">Full Name</label></div>
+        <div class="fg"><input type="email" id="mf-email" name="email" placeholder=" " required/><label for="mf-email">Email Address</label></div>
+        <div class="fg pg" style="position:relative;">
+          <select class="psel" id="mf-cc"><option value="+91" selected>🇮🇳 +91</option><option value="+1">🇺🇸 +1</option><option value="+44">🇬🇧 +44</option><option value="+61">🇦🇺 +61</option><option value="+971">🇦🇪 +971</option><option value="+65">🇸🇬 +65</option><option value="+49">🇩🇪 +49</option><option value="+33">🇫🇷 +33</option></select>
+          <input type="tel" id="mf-phone" class="pi" placeholder=" "/><label for="mf-phone">Phone Number (optional)</label>
+        </div>
+        <div class="fg"><textarea id="mf-msg" rows="3" placeholder=" " required style="resize:none;"></textarea><label for="mf-msg">Your Message</label></div>
+        <button type="submit" id="mf-btn" class="btn-p" style="width:100%;display:flex;align-items:center;justify-content:center;gap:.5rem;padding:.9rem;border-radius:.875rem;font-family:Syne;font-size:.9rem;font-weight:700;border:none;">
+          <span id="mf-txt">Send Message</span>
+          <svg id="mf-arr" style="width:15px;height:15px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+          <svg id="mf-spin" class="hidden" style="width:15px;height:15px;animation:spin 1s linear infinite;" fill="none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" style="opacity:.25"/><path fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" style="opacity:.75"/></svg>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+<script>
+/* ═══════════════════════════════════════════════════════════════
+   GOOGLE SHEETS INTEGRATION
+   ─────────────────────────────────────────────────────────────
+   STEP 1 — Create a Google Sheet with columns:
+     Timestamp | Name | Email | Phone | Message | Source
+
+   STEP 2 — Extensions → Apps Script → paste this function:
+
+   function doPost(e) {
+     const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+     const d = JSON.parse(e.postData.contents);
+     sheet.appendRow([
+       new Date(), d.name, d.email,
+       d.countryCode + (d.phone || ''),
+       d.message, d.source
+     ]);
+     return ContentService
+       .createTextOutput(JSON.stringify({ result: 'success' }))
+       .setMimeType(ContentService.MimeType.JSON);
+   }
+
+   STEP 3 — Deploy → New deployment → Web App
+     · Execute as: Me
+     · Who has access: Anyone
+   Copy the Web App URL and paste below.
+═══════════════════════════════════════════════════════════════ */
+const SHEETS_URL = 'YOUR_GOOGLE_SHEETS_SCRIPT_URL_HERE';
+
+async function postToSheets(data) {
+  if (!SHEETS_URL || SHEETS_URL === 'YOUR_GOOGLE_SHEETS_SCRIPT_URL_HERE') {
+    // Not configured — simulate 1.4 s delay then success
+    return new Promise(r => setTimeout(() => r({ result:'success' }), 1400));
+  }
+  // Apps Script requires text/plain to avoid CORS preflight
+  const res = await fetch(SHEETS_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify(data),
+  });
+  return res.json();
+}
+
+/* ─── Theme ─────────────────────────────────────────────────── */
+const H = document.documentElement;
+function applyTheme(dark) {
+  dark ? H.classList.add('dark') : H.classList.remove('dark');
+  document.getElementById('sun-ic').classList.toggle('hidden', !dark);
+  document.getElementById('moon-ic').classList.toggle('hidden',  dark);
+}
+const sv = localStorage.getItem('theme'), sd = matchMedia('(prefers-color-scheme:dark)').matches;
+applyTheme(sv === 'dark' || (!sv && sd));
+function toggleTheme() {
+  const d = H.classList.contains('dark');
+  applyTheme(!d);
+  localStorage.setItem('theme', d ? 'light' : 'dark');
+}
+
+/* ─── Responsive nav show ────────────────────────────────────── */
+function setNavVis() {
+  const wide = innerWidth >= 768;
+  document.getElementById('desknav').style.display = wide ? 'block' : 'none';
+  const cta = document.getElementById('nav-cta');
+  cta.style.display = wide ? 'flex' : 'none';
+  document.getElementById('hbtn').style.display = wide ? 'none' : 'flex';
+}
+setNavVis(); window.addEventListener('resize', setNavVis);
+
+/* ─── Navbar scroll ──────────────────────────────────────────── */
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  const y = scrollY;
+  if (y > 30) {
+    const bg = H.classList.contains('dark') ? 'rgba(11,11,22,.88)' : 'rgba(248,247,255,.88)';
+    nav.style.cssText = `position:fixed;top:0;left:0;right:0;z-index:50;background:${bg};backdrop-filter:blur(16px);border-bottom:1px solid var(--border);box-shadow:0 2px 20px rgba(0,0,0,.06);transition:all .3s;`;
+  } else {
+    nav.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:50;transition:all .3s;';
+  }
+  const ids = ['services','projects','why-me','about','contact'];
+  let cur = '';
+  ids.forEach(id => { const el = document.getElementById(id); if(el && y >= el.offsetTop - 140) cur = id; });
+  document.querySelectorAll('.nl').forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#'+cur));
+}, { passive: true });
+
+/* ─── Mobile menu ────────────────────────────────────────────── */
+let mOpen = false;
+function toggleMenu(){ mOpen=!mOpen; document.getElementById('mm').classList.toggle('open',mOpen); }
+function closeMenu(){ mOpen=false; document.getElementById('mm').classList.remove('open'); }
+
+/* ─── Cursor glow ────────────────────────────────────────────── */
+const cg = document.getElementById('cg');
+if('ontouchstart' in window){ cg.style.display='none'; }
+else { window.addEventListener('mousemove', e => { cg.style.left=e.clientX+'px'; cg.style.top=e.clientY+'px'; }, { passive:true }); }
+
+/* ─── Reveal ─────────────────────────────────────────────────── */
+const ro = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('vis'); ro.unobserve(e.target); } });
+}, { threshold: 0.1 });
+document.querySelectorAll('.rev,.revL').forEach(el => ro.observe(el));
+
+/* ─── Counter ────────────────────────────────────────────────── */
+function runCounter(el) {
+  const target = +el.dataset.target, suf = el.dataset.suffix || '';
+  let v = 0; const step = target / (1200/16);
+  const t = () => { v = Math.min(v+step, target); el.textContent = Math.floor(v)+suf; if(v<target) requestAnimationFrame(t); else el.textContent=target+suf; };
+  t();
+}
+const co = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting && e.target.classList.contains('cnt')){ runCounter(e.target); co.unobserve(e.target); } });
+}, { threshold:.5 });
+document.querySelectorAll('.cnt').forEach(el => co.observe(el));
+
+/* ─── Typed ──────────────────────────────────────────────────── */
+const phrases = ['Real-world results guaranteed.','MERN & Next.js specialist.','Clean code. Fast delivery.','Your vision, precisely built.'];
+let pi=0, ci=0, del=false;
+const te = document.getElementById('typed');
+function typeStep() {
+  const p = phrases[pi];
+  if(!del){ te.textContent = p.slice(0,++ci); if(ci===p.length){ del=true; setTimeout(typeStep,1900); return; } }
+  else { te.textContent = p.slice(0,--ci); if(ci===0){ del=false; pi=(pi+1)%phrases.length; setTimeout(typeStep,400); return; } }
+  setTimeout(typeStep, del?42:72);
+}
+setTimeout(typeStep, 1300);
+
+/* ─── Tilt ───────────────────────────────────────────────────── */
+document.querySelectorAll('.tilt').forEach(c => {
+  c.addEventListener('mousemove', e => {
+    const r=c.getBoundingClientRect(), x=(e.clientX-r.left)/r.width-.5, y=(e.clientY-r.top)/r.height-.5;
+    c.style.transform=`perspective(600px) rotateY(${x*7}deg) rotateX(${-y*7}deg) translateY(-4px)`;
+  });
+  c.addEventListener('mouseleave', () => { c.style.transform=''; });
+});
+
+/* ─── Marquee content ────────────────────────────────────────── */
+const mqItems = [
+  ['React','var(--accent)'],['Node.js','var(--a2)'],['Next.js','var(--coral)'],
+  ['MongoDB','var(--gold)'],['Express','var(--accent)'],['TypeScript','var(--a2)'],
+  ['Tailwind CSS','var(--coral)'],['REST APIs','var(--gold)'],['Redux','var(--accent)'],['JWT Auth','var(--a2)'],
+];
+function buildMQ(id) {
+  const el = document.getElementById(id);
+  mqItems.forEach(([label, col]) => {
+    el.innerHTML += `<span style="font-family:Syne;font-size:.7rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);">${label}</span><span style="color:${col};font-size:.75rem;">✦</span>`;
+  });
+}
+buildMQ('mq1'); buildMQ('mq2');
+
+/* ─── Stack box ──────────────────────────────────────────────── */
+const techs=[
+  ['React','rgba(107,131,255,.2)','rgba(107,131,255,.8)'],
+  ['Next.js','rgba(107,131,255,.2)','rgba(107,131,255,.8)'],
+  ['Node.js','rgba(125,249,255,.2)','rgba(125,249,255,.8)'],
+  ['Express','rgba(125,249,255,.2)','rgba(125,249,255,.8)'],
+  ['MongoDB','rgba(255,209,102,.2)','rgba(255,209,102,.8)'],
+  ['TypeScript','rgba(255,107,107,.2)','rgba(255,107,107,.8)'],
+  ['Tailwind','rgba(107,131,255,.2)','rgba(107,131,255,.8)'],
+  ['Redux','rgba(125,249,255,.2)','rgba(125,249,255,.8)'],
+  ['JWT','rgba(255,209,102,.2)','rgba(255,209,102,.8)'],
+  ['REST API','rgba(255,107,107,.2)','rgba(255,107,107,.8)'],
+  ['Git','rgba(107,131,255,.2)','rgba(107,131,255,.8)'],
+  ['Cloudinary','rgba(125,249,255,.2)','rgba(125,249,255,.8)'],
+];
+const sb = document.getElementById('stack-box');
+if(sb){
+  sb.innerHTML = `<p style="font-size:.62rem;font-family:Syne;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#555577;margin-bottom:.75rem;">Tech Stack</p><div style="display:flex;flex-wrap:wrap;gap:.35rem;">${techs.map(([t,bg,col]) => `<span style="font-size:.68rem;font-weight:600;padding:.22rem .6rem;border-radius:999px;border:1px solid ${bg};color:${col};background:${bg};">${t}</span>`).join('')}</div>`;
+}
+
+/* ─── Particles ──────────────────────────────────────────────── */
+const hero = document.getElementById('hero');
+const pColors=['rgba(107,131,255,.4)','rgba(125,249,255,.3)','rgba(255,107,107,.3)','rgba(255,209,102,.3)'];
+function spawnP() {
+  const p=document.createElement('div'); p.className='part';
+  const s=Math.random()*3+1;
+  p.style.cssText=`width:${s}px;height:${s}px;left:${Math.random()*100}%;bottom:-10px;background:${pColors[0|Math.random()*4]};animation-duration:${Math.random()*10+8}s;animation-delay:${Math.random()*4}s;`;
+  hero.appendChild(p); setTimeout(()=>p.remove(),18000);
+}
+setInterval(spawnP,2200); for(let i=0;i<6;i++) setTimeout(spawnP,i*450);
+
+/* ─── Modal ──────────────────────────────────────────────────── */
+const modal = document.getElementById('cmodal');
+function openModal() { modal.classList.add('active'); document.body.style.overflow='hidden'; }
+function closeModal() { modal.classList.remove('active'); document.body.style.overflow=''; }
+document.addEventListener('keydown', e => { if(e.key==='Escape') closeModal(); });
+
+/* ─── Toast ──────────────────────────────────────────────────── */
+const toast=document.getElementById('toast'); let tt;
+function showToast(msg, type='ok') {
+  clearTimeout(tt); toast.className=`show ${type}`;
+  document.getElementById('t-msg').textContent=msg;
+  document.getElementById('t-ic').innerHTML = type==='ok'
+    ? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>'
+    : '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>';
+  tt=setTimeout(()=>toast.classList.remove('show'),4500);
+}
+
+/* ─── Form submit ────────────────────────────────────────────── */
+async function handleSubmit(e, p) {
+  e.preventDefault();
+  const name    = document.getElementById(`${p}-name`).value.trim();
+  const email   = document.getElementById(`${p}-email`).value.trim();
+  const phone   = document.getElementById(`${p}-phone`)?.value.trim() || '';
+  const cc      = document.getElementById(`${p}-cc`)?.value || '+91';
+  const message = document.getElementById(`${p}-msg`).value.trim();
+
+  if (!name || !email || !message) { showToast('Please fill in all required fields.','err'); return; }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showToast('Please enter a valid email address.','err'); return; }
+
+  const btn=document.getElementById(`${p}-btn`),
+        txt=document.getElementById(`${p}-txt`),
+        arr=document.getElementById(`${p}-arr`),
+        spn=document.getElementById(`${p}-spin`);
+  btn.disabled=true; txt.textContent='Sending…'; arr.classList.add('hidden'); spn.classList.remove('hidden');
+
+  const payload = { name, email, countryCode:cc, phone, message,
+    source: p==='mf' ? 'Modal' : 'Contact Section',
+    timestamp: new Date().toISOString() };
+
+  try {
+    const res = await postToSheets(payload);
+    if (res.result === 'success') {
+      showToast('Message sent! I\'ll reply within 24 hours 🎉');
+      document.getElementById(p==='cf'?'cf':'mf').reset();
+      if(p==='mf') setTimeout(closeModal, 1200);
+    } else throw new Error();
+  } catch {
+    showToast('Something went wrong. Email me directly.','err');
+  } finally {
+    btn.disabled=false; txt.textContent='Send Message'; arr.classList.remove('hidden'); spn.classList.add('hidden');
+  }
+}
+</script>
+</body>
+</html>
