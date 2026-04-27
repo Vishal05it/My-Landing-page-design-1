@@ -2884,7 +2884,7 @@
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.06);
           "
         >
-          <form id="cf" onsubmit="handleSubmit(event, 'cf')" novalidate>
+          <form id="cf" onsubmit="handleSubmit(event, 'mf')" novalidate>
             <div style="display: flex; flex-direction: column; gap: 1.125rem">
               <div class="fg">
                 <input
@@ -3430,7 +3430,8 @@
      · Who has access: Anyone
    Copy the Web App URL and paste below.
 ═══════════════════════════════════════════════════════════════ */
-      const SHEETS_URL = "YOUR_GOOGLE_SHEETS_SCRIPT_URL_HERE";
+      const SHEETS_URL =
+        "https://script.google.com/macros/s/AKfycbwQigk_WmEek1bFrUSRzQS-oVl5FYgmx0ht4E-rzl-m33N4O8-5YxN_xyogMikfGPou/exec";
 
       async function postToSheets(data) {
         if (
@@ -3716,6 +3717,38 @@
       }
 
       /* ─── Form submit ────────────────────────────────────────────── */
+      const scriptURL = SHEETS_URL;
+
+      async function submitForm(e) {
+        e.preventDefault();
+
+        const form = e.target;
+
+        const formData = {
+          name: form.querySelector('[name="name"]').value,
+          email: form.querySelector('[name="email"]').value,
+          phone: form.querySelector('[name="phone"]').value,
+          message: form.querySelector('[name="message"]').value,
+        };
+
+        try {
+          const res = await fetch(scriptURL, {
+            method: "POST",
+            body: JSON.stringify(formData),
+          });
+
+          const result = await res.json();
+
+          if (result.status === "success") {
+            showToast("Message sent successfully!", "ok");
+            form.reset();
+          } else {
+            showToast("Something went wrong!", "err");
+          }
+        } catch (err) {
+          showToast("Network error!", "err");
+        }
+      }
       async function handleSubmit(e, p) {
         e.preventDefault();
         const name = document.getElementById(`${p}-name`).value.trim();
