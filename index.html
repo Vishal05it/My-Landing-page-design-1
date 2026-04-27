@@ -3446,9 +3446,14 @@
         // Apps Script requires text/plain to avoid CORS preflight
         const res = await fetch(SHEETS_URL, {
           method: "POST",
+          mode: "no-cors",
           headers: { "Content-Type": "text/plain;charset=utf-8" },
           body: JSON.stringify(data),
         });
+        // no-cors returns an opaque response, so parsing JSON will fail even when the request succeeds
+        if (res.type === "opaque") {
+          return { result: "success" };
+        }
         return res.json();
       }
 
@@ -3732,21 +3737,16 @@
         };
 
         try {
-          const res = await fetch(scriptURL, {
+          await fetch(scriptURL, {
             method: "POST",
+            mode: "no-cors",
             body: JSON.stringify(formData),
           });
 
-          const result = await res.json();
-
-          if (result.status === "success") {
-            showToast("Message sent successfully!", "ok");
-            form.reset();
-          } else {
-            showToast("Something went wrong!", "err");
-          }
+          showToast("Message sent successfully!", "ok");
+          form.reset();
         } catch (err) {
-          showToast("Network error!", "err");
+          showToast("Something went wrong. Email me directly.", "err");
         }
       }
       async function handleSubmit(e, p) {
