@@ -3481,7 +3481,7 @@
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.06);
           "
         >
-          <form id="cf" onsubmit="handleSubmit(event, 'mf')" novalidate>
+          <form id="cf" onsubmit="handleSubmit(event, 'cf')" novalidate>
             <div style="display: flex; flex-direction: column; gap: 1.125rem">
               <div class="fg">
                 <input
@@ -3516,7 +3516,6 @@
                   type="tel"
                   id="cf-phone"
                   class="pi"
-                  required
                   placeholder=" "
                 /><label for="cf-phone">Phone Number </label>
               </div>
@@ -3932,17 +3931,17 @@
                 id="mf-phone"
                 class="pi"
                 placeholder=" "
-              /><label for="mf-phone">Phone Number (optional)</label>
+                required
+              /><label for="mf-phone">Phone Number</label>
             </div>
             <div class="fg">
               <textarea
                 id="mf-msg"
                 rows="3"
                 placeholder=" "
-                required
                 style="resize: none"
               ></textarea
-              ><label for="mf-msg">Your Message</label>
+              ><label for="mf-msg">Your Message(optional)</label>
             </div>
             <button
               type="submit"
@@ -4362,7 +4361,9 @@
         const cc = document.getElementById(`${p}-cc`)?.value || "+91";
         const message = document.getElementById(`${p}-msg`).value.trim();
 
-        if (!name || !email || !message) {
+        // message is required for modal (mf), optional for contact section (cf)
+        const messageRequired = p === "mf";
+        if (!name || !email || (messageRequired && !message)) {
           showToast("Please fill in all required fields.", "err");
           return;
         }
