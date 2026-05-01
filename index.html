@@ -373,12 +373,21 @@
         transition: all 0.2s;
         cursor: pointer;
       }
+      .btn-gwp {
+        border: 1.5px solid var(--border);
+        color: var(--text);
+        transition: all 0.2s;
+        cursor: pointer;
+      }
       .btn-g:hover {
         border-color: var(--accent);
         color: var(--accent);
         background: rgba(107, 131, 255, 0.06);
       }
-
+      .btn-gwp:hover {
+        transform: scale(1.05);
+        box-shadow: 0 8px 32px rgba(74, 90, 247, 0.4);
+      }
       /* glow hover card */
       .gc {
         transition:
@@ -1062,7 +1071,7 @@
         justify-content: center;
         position: relative;
         overflow: hidden;
-        padding-top: 80px;
+        padding-top: 60px;
       "
     >
       <div
@@ -1211,7 +1220,7 @@
                 font-weight: 700;
               "
             >
-              Get Your Website
+              Get Your Website Now
               <svg
                 style="width: 15px; height: 15px"
                 fill="none"
@@ -1253,6 +1262,40 @@
                   stroke-linejoin="round"
                   stroke-width="2"
                   d="M19 9l-7 7-7-7"
+                />
+              </svg>
+            </a>
+            <a
+              href="https://wa.me/917007242112"
+              target="_blank"
+              class="btn-g btn-gwp"
+              aria-label="WhatsApp Vishal"
+              style="
+                display: inline-flex;
+                align-items: center;
+                gap: 0.5rem;
+                padding: 0.875rem 1.75rem;
+                border-radius: 999px;
+                background-color: rgb(14, 224, 14);
+                color: #07070f;
+                font-family: Syne;
+                font-size: 0.95rem;
+                font-weight: 700;
+                text-decoration: none;
+              "
+            >
+              Chat on WhatsApp
+              <svg
+                style="width: 15px; height: 15px"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M17 8l4 4m0 0l-4 4m4-4H3"
                 />
               </svg>
             </a>
