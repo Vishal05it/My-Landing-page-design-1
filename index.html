@@ -1242,7 +1242,7 @@
             <div>
               <p
                 class="cnt"
-                data-target="3"
+                data-target="6"
                 style="
                   font-family: Syne;
                   font-weight: 800;
@@ -1250,7 +1250,7 @@
                   color: var(--text);
                 "
               >
-                0
+                6
               </p>
               <p
                 style="
@@ -1331,7 +1331,7 @@
       <div
         style="
           position: absolute;
-          bottom: 2rem;
+          bottom: 0rem;
           left: 50%;
           transform: translateX(-50%);
           z-index: 2;
@@ -1349,7 +1349,6 @@
             color: var(--muted);
             font-family: Syne;
             text-transform: uppercase;
-            margin-top: 15px;
           "
           >Scroll</span
         >
@@ -1820,6 +1819,7 @@
           z-index: 1;
         "
       >
+        <!-- Header -->
         <div style="margin-bottom: 3.5rem">
           <div class="rev sl" style="margin-bottom: 0.875rem">Portfolio</div>
           <div
@@ -1848,64 +1848,109 @@
               style="
                 font-size: 0.875rem;
                 color: var(--muted);
-                max-width: 260px;
+                max-width: 300px;
                 line-height: 1.7;
               "
             >
-              Real complexity. Real solutions. Real results.
+              From live client sites to full-stack apps — real complexity, real
+              solutions, real results.
             </p>
           </div>
         </div>
 
-        <div style="display: flex; flex-direction: column; gap: 1.25rem">
-          <!-- P1 -->
+        <!-- ═══ CLIENT WORK LABEL ═══ -->
+        <div
+          class="rev"
+          style="
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.25rem;
+          "
+        >
+          <div style="display: flex; align-items: center; gap: 0.5rem">
+            <span
+              style="
+                width: 8px;
+                height: 8px;
+                border-radius: 50%;
+                background: #4ade80;
+                animation: pulse 2s infinite;
+              "
+            ></span>
+            <span
+              style="
+                font-family: Syne;
+                font-size: 0.7rem;
+                font-weight: 800;
+                text-transform: uppercase;
+                letter-spacing: 0.14em;
+                color: #4ade80;
+              "
+              >Client Work</span
+            >
+          </div>
+          <div
+            style="
+              flex: 1;
+              height: 1px;
+              background: linear-gradient(
+                90deg,
+                rgba(74, 222, 128, 0.3),
+                transparent
+              );
+            "
+          ></div>
+          <span
+            style="font-size: 0.72rem; color: var(--muted); font-family: Syne"
+            >Live & deployed</span
+          >
+        </div>
+
+        <div
+          style="
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+            margin-bottom: 2.5rem;
+          "
+        >
+          <!-- CLIENT 1: Shalimar One World -->
           <div
             class="rev gc sh"
             style="
               background: var(--surface);
               border: 1px solid var(--border);
               border-radius: 1.25rem;
-              padding: 1.75rem 2rem;
-              display: flex;
-              flex-wrap: wrap;
-              gap: 1.5rem;
-              align-items: flex-start;
+              overflow: hidden;
             "
           >
             <div
               style="
-                width: 54px;
-                height: 54px;
-                background: linear-gradient(135deg, #1a1a2e, #2a2a4a);
-                border-radius: 14px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
+                width: 100%;
+                border-radius: 0.875rem;
+                overflow: hidden;
+                border: 1px solid var(--border);
                 flex-shrink: 0;
-                border: 1px solid rgba(107, 131, 255, 0.25);
+                max-height: 210px;
               "
             >
-              <svg
-                style="width: 24px; height: 24px"
-                fill="none"
-                stroke="url(#g1)"
-                viewBox="0 0 24 24"
-              >
-                <defs>
-                  <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
-                    <stop offset="0%" stop-color="#6b83ff" />
-                    <stop offset="100%" stop-color="#7DF9FF" />
-                  </linearGradient>
-                </defs>
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="1.5"
-                  d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"
-                />
-              </svg>
+              <img
+                src="./Shalimar.jpg"
+                alt="Shalimar One World"
+                style="
+                  width: 100%;
+                  height: 210px;
+                  object-fit: cover;
+                  object-position: top;
+                  display: block;
+                  transition: transform 0.4s ease;
+                "
+                onmouseover="this.style.transform = 'scale(1.03)'"
+                onmouseout="this.style.transform = 'scale(1)'"
+              />
             </div>
-            <div style="flex: 1; min-width: 240px">
+            <div style="padding: 1.5rem 1.75rem 1.75rem">
               <div
                 style="
                   display: flex;
@@ -1923,8 +1968,542 @@
                     color: var(--text);
                   "
                 >
-                  MERN Social Platform
+                  Shalimar One World
                 </h3>
+                <span
+                  style="
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 0.3rem;
+                    font-size: 0.62rem;
+                    font-family: Syne;
+                    font-weight: 700;
+                    letter-spacing: 0.08em;
+                    background: rgba(74, 222, 128, 0.12);
+                    color: #4ade80;
+                    border: 1px solid rgba(74, 222, 128, 0.25);
+                    padding: 0.18rem 0.55rem;
+                    border-radius: 999px;
+                  "
+                  ><span
+                    style="
+                      width: 5px;
+                      height: 5px;
+                      border-radius: 50%;
+                      background: #4ade80;
+                      animation: pulse 2s infinite;
+                    "
+                  ></span
+                  >LIVE</span
+                >
+                <span
+                  class="tag"
+                  style="
+                    background: rgba(255, 209, 102, 0.1);
+                    color: var(--gold);
+                    border-color: rgba(255, 209, 102, 0.2);
+                  "
+                  >Real Estate</span
+                >
+              </div>
+              <p
+                style="
+                  font-size: 0.85rem;
+                  color: var(--muted);
+                  line-height: 1.8;
+                  margin-bottom: 0.875rem;
+                "
+              >
+                Premium real estate lead-generation landing page for Shalimar
+                Group — a luxury residential township in Gomti Nagar Extension,
+                Lucknow. Features property listings (₹1.3Cr–₹4.95Cr+), lead
+                capture forms, WhatsApp CTA, brochure downloads, floor plan
+                gallery, and a multi-property carousel. Built for high-intent
+                buyer conversion.
+              </p>
+              <div
+                style="
+                  display: flex;
+                  flex-wrap: wrap;
+                  gap: 0.35rem;
+                  margin-bottom: 1.125rem;
+                "
+              >
+                <span class="sp">HTML/CSS</span
+                ><span class="sp">JavaScript</span
+                ><span class="sp">Lead Generation</span
+                ><span class="sp">Multi-Property</span
+                ><span class="sp">WhatsApp API</span
+                ><span class="sp">Responsive</span>
+              </div>
+              <div style="display: flex; gap: 1rem">
+                <a
+                  href="https://shalimar-one-world.propinvesta.site/"
+                  target="_blank"
+                  style="
+                    display: flex;
+                    align-items: center;
+                    gap: 0.35rem;
+                    font-size: 0.78rem;
+                    font-family: Syne;
+                    font-weight: 700;
+                    color: var(--muted);
+                    text-decoration: none;
+                    transition: color 0.2s;
+                  "
+                  onmouseover="this.style.color = 'var(--gold)'"
+                  onmouseout="this.style.color = 'var(--muted)'"
+                  ><svg
+                    style="width: 13px; height: 13px"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                    /></svg
+                  >Visit Site</a
+                >
+              </div>
+            </div>
+          </div>
+
+          <!-- CLIENT 2: NIOS Admissions -->
+          <div
+            class="rev d1 gc sh"
+            style="
+              background: var(--surface);
+              border: 1px solid var(--border);
+              border-radius: 1.25rem;
+              overflow: hidden;
+            "
+          >
+            <div
+              style="
+                width: 100%;
+                border-radius: 0.875rem;
+                overflow: hidden;
+                border: 1px solid var(--border);
+                flex-shrink: 0;
+                max-height: 210px;
+              "
+            >
+              <img
+                src="./NIOSAdmissions.jpg"
+                alt="NIOS Admissions - SS Coaching"
+                style="
+                  width: 100%;
+                  height: 210px;
+                  object-fit: cover;
+                  object-position: top;
+                  display: block;
+                  transition: transform 0.4s ease;
+                "
+                onmouseover="this.style.transform = 'scale(1.03)'"
+                onmouseout="this.style.transform = 'scale(1)'"
+              />
+            </div>
+            <div style="padding: 1.5rem 1.75rem 1.75rem">
+              <div
+                style="
+                  display: flex;
+                  flex-wrap: wrap;
+                  align-items: center;
+                  gap: 0.625rem;
+                  margin-bottom: 0.5rem;
+                "
+              >
+                <h3
+                  style="
+                    font-family: Syne;
+                    font-weight: 700;
+                    font-size: 1.1rem;
+                    color: var(--text);
+                  "
+                >
+                  NIOS Admissions — SS Coaching
+                </h3>
+                <span
+                  style="
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 0.3rem;
+                    font-size: 0.62rem;
+                    font-family: Syne;
+                    font-weight: 700;
+                    letter-spacing: 0.08em;
+                    background: rgba(74, 222, 128, 0.12);
+                    color: #4ade80;
+                    border: 1px solid rgba(74, 222, 128, 0.25);
+                    padding: 0.18rem 0.55rem;
+                    border-radius: 999px;
+                  "
+                  ><span
+                    style="
+                      width: 5px;
+                      height: 5px;
+                      border-radius: 50%;
+                      background: #4ade80;
+                      animation: pulse 2s infinite;
+                    "
+                  ></span
+                  >LIVE</span
+                >
+                <span
+                  class="tag"
+                  style="
+                    background: rgba(107, 131, 255, 0.1);
+                    color: var(--accent);
+                    border-color: rgba(107, 131, 255, 0.2);
+                  "
+                  >Education</span
+                >
+              </div>
+              <p
+                style="
+                  font-size: 0.85rem;
+                  color: var(--muted);
+                  line-height: 1.8;
+                  margin-bottom: 0.875rem;
+                "
+              >
+                Full admission & lead generation website for SS Coaching,
+                Lucknow — India's top NIOS coaching institute with 25+ years
+                experience and 100k+ students. Features bilingual content
+                (English & Hindi), free counselling booking form, 4 academic
+                stream cards, topper results, photo gallery, 3-branch location
+                info, FAQ section, and multi-channel WhatsApp contact. Rated
+                4.8★ on Google.
+              </p>
+              <div
+                style="
+                  display: flex;
+                  flex-wrap: wrap;
+                  gap: 0.35rem;
+                  margin-bottom: 1.125rem;
+                "
+              >
+                <span class="sp">HTML/CSS</span
+                ><span class="sp">JavaScript</span
+                ><span class="sp">Bilingual (EN/HI)</span
+                ><span class="sp">Lead Gen</span
+                ><span class="sp">Multi-Branch</span
+                ><span class="sp">SEO Optimized</span>
+              </div>
+              <div style="display: flex; gap: 1rem">
+                <a
+                  href="https://niosadmissions.in/"
+                  target="_blank"
+                  style="
+                    display: flex;
+                    align-items: center;
+                    gap: 0.35rem;
+                    font-size: 0.78rem;
+                    font-family: Syne;
+                    font-weight: 700;
+                    color: var(--muted);
+                    text-decoration: none;
+                    transition: color 0.2s;
+                  "
+                  onmouseover="this.style.color = 'var(--accent)'"
+                  onmouseout="this.style.color = 'var(--muted)'"
+                  ><svg
+                    style="width: 13px; height: 13px"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                    /></svg
+                  >Visit Site</a
+                >
+              </div>
+            </div>
+          </div>
+
+          <!-- CLIENT 3: Shahla Farms -->
+          <div
+            class="rev d2 gc sh"
+            style="
+              background: var(--surface);
+              border: 1px solid var(--border);
+              border-radius: 1.25rem;
+              overflow: hidden;
+            "
+          >
+            <div
+              style="
+                width: 100%;
+                border-radius: 0.875rem;
+                overflow: hidden;
+                border: 1px solid var(--border);
+                flex-shrink: 0;
+                max-height: 210px;
+              "
+            >
+              <img
+                src="./ShahlaFArms.jpg"
+                alt="Shahla Nafees Farmhouse"
+                style="
+                  width: 100%;
+                  height: 210px;
+                  object-fit: cover;
+                  object-position: top;
+                  display: block;
+                  transition: transform 0.4s ease;
+                "
+                onmouseover="this.style.transform = 'scale(1.03)'"
+                onmouseout="this.style.transform = 'scale(1)'"
+              />
+            </div>
+            <div style="padding: 1.5rem 1.75rem 1.75rem">
+              <div
+                style="
+                  display: flex;
+                  flex-wrap: wrap;
+                  align-items: center;
+                  gap: 0.625rem;
+                  margin-bottom: 0.5rem;
+                "
+              >
+                <h3
+                  style="
+                    font-family: Syne;
+                    font-weight: 700;
+                    font-size: 1.1rem;
+                    color: var(--text);
+                  "
+                >
+                  Shahla Nafees Farmhouse
+                </h3>
+                <span
+                  style="
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 0.3rem;
+                    font-size: 0.62rem;
+                    font-family: Syne;
+                    font-weight: 700;
+                    letter-spacing: 0.08em;
+                    background: rgba(74, 222, 128, 0.12);
+                    color: #4ade80;
+                    border: 1px solid rgba(74, 222, 128, 0.25);
+                    padding: 0.18rem 0.55rem;
+                    border-radius: 999px;
+                  "
+                  ><span
+                    style="
+                      width: 5px;
+                      height: 5px;
+                      border-radius: 50%;
+                      background: #4ade80;
+                      animation: pulse 2s infinite;
+                    "
+                  ></span
+                  >LIVE</span
+                >
+                <span
+                  class="tag"
+                  style="
+                    background: rgba(125, 249, 255, 0.1);
+                    color: var(--a2);
+                    border-color: rgba(125, 249, 255, 0.2);
+                  "
+                  >Hospitality</span
+                >
+              </div>
+              <p
+                style="
+                  font-size: 0.85rem;
+                  color: var(--muted);
+                  line-height: 1.8;
+                  margin-bottom: 0.875rem;
+                "
+              >
+                Elegant booking & enquiry landing page for a private farmhouse
+                resort in Lucknow. Includes a full-screen hero with image
+                carousel, booking availability form, transparent pricing
+                section, photo gallery with lightbox, guest testimonials,
+                amenities showcase, video section, animated counters, rules
+                policy modal, and Instagram integration. Designed to evoke
+                luxury and convert visitors into direct bookings.
+              </p>
+              <div
+                style="
+                  display: flex;
+                  flex-wrap: wrap;
+                  gap: 0.35rem;
+                  margin-bottom: 1.125rem;
+                "
+              >
+                <span class="sp">HTML/CSS</span
+                ><span class="sp">JavaScript</span
+                ><span class="sp">Gallery & Lightbox</span
+                ><span class="sp">Booking Form</span
+                ><span class="sp">Animations</span
+                ><span class="sp">Responsive</span>
+              </div>
+              <div style="display: flex; gap: 1rem">
+                <a
+                  href="https://shahlafarms.in/"
+                  target="_blank"
+                  style="
+                    display: flex;
+                    align-items: center;
+                    gap: 0.35rem;
+                    font-size: 0.78rem;
+                    font-family: Syne;
+                    font-weight: 700;
+                    color: var(--muted);
+                    text-decoration: none;
+                    transition: color 0.2s;
+                  "
+                  onmouseover="this.style.color = 'var(--a2)'"
+                  onmouseout="this.style.color = 'var(--muted)'"
+                  ><svg
+                    style="width: 13px; height: 13px"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                    /></svg
+                  >Visit Site</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ═══ PERSONAL PROJECTS LABEL ═══ -->
+        <div
+          class="rev"
+          style="
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.25rem;
+          "
+        >
+          <div style="display: flex; align-items: center; gap: 0.5rem">
+            <span
+              style="
+                width: 8px;
+                height: 8px;
+                border-radius: 50%;
+                background: var(--accent);
+              "
+            ></span>
+            <span
+              style="
+                font-family: Syne;
+                font-size: 0.7rem;
+                font-weight: 800;
+                text-transform: uppercase;
+                letter-spacing: 0.14em;
+                color: var(--accent);
+              "
+              >Personal Projects</span
+            >
+          </div>
+          <div
+            style="
+              flex: 1;
+              height: 1px;
+              background: linear-gradient(
+                90deg,
+                rgba(107, 131, 255, 0.3),
+                transparent
+              );
+            "
+          ></div>
+          <span
+            style="font-size: 0.72rem; color: var(--muted); font-family: Syne"
+            >Full-stack web apps</span
+          >
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 1.25rem">
+          <!-- P1: MERN Social -->
+          <div
+            class="rev gc sh"
+            style="
+              background: var(--surface);
+              border: 1px solid var(--border);
+              border-radius: 1.25rem;
+              overflow: hidden;
+            "
+          >
+            <div
+              style="
+                width: 100%;
+                border-radius: 0.875rem;
+                overflow: hidden;
+                border: 1px solid var(--border);
+                flex-shrink: 0;
+                max-height: 210px;
+              "
+            >
+              <img
+                src="./SocialPlatform.jpg"
+                alt="DevConnect - MERN Social Platform"
+                style="
+                  width: 100%;
+                  height: 210px;
+                  object-fit: cover;
+                  object-position: top;
+                  display: block;
+                  transition: transform 0.4s ease;
+                "
+                onmouseover="this.style.transform = 'scale(1.03)'"
+                onmouseout="this.style.transform = 'scale(1)'"
+              />
+            </div>
+            <div style="padding: 1.5rem 1.75rem 1.75rem">
+              <div
+                style="
+                  display: flex;
+                  flex-wrap: wrap;
+                  align-items: center;
+                  gap: 0.625rem;
+                  margin-bottom: 0.5rem;
+                "
+              >
+                <h3
+                  style="
+                    font-family: Syne;
+                    font-weight: 700;
+                    font-size: 1.1rem;
+                    color: var(--text);
+                  "
+                >
+                  DevConnect — MERN Social Platform
+                </h3>
+                <span
+                  style="
+                    font-size: 0.62rem;
+                    font-family: Syne;
+                    font-weight: 700;
+                    letter-spacing: 0.08em;
+                    background: rgba(107, 131, 255, 0.1);
+                    color: var(--accent);
+                    border: 1px solid rgba(107, 131, 255, 0.2);
+                    padding: 0.18rem 0.55rem;
+                    border-radius: 999px;
+                  "
+                  >PERSONAL</span
+                >
                 <span class="tag">Full-Stack</span>
               </div>
               <p
@@ -1935,9 +2514,11 @@
                   margin-bottom: 0.875rem;
                 "
               >
-                Full-featured social networking app. Real-time messaging via
-                Socket.io, push notifications, user profiles, follow/unfollow,
-                and a scrollable feed — secured with JWT auth.
+                Full-featured social networking app for developers. Features
+                real-time messaging via Database, push notifications, user
+                profiles, follow/unfollow system, post search, user search,
+                likes, comments, and a scrollable feed — all secured with JWT
+                authentication and a clean light/dark UI.
               </p>
               <div
                 style="
@@ -1948,12 +2529,14 @@
                 "
               >
                 <span class="sp">React</span><span class="sp">Node.js</span
-                ><span class="sp">MongoDB</span><span class="sp">Socket.io</span
-                ><span class="sp">JWT</span>
+                ><span class="sp">MongoDB</span
+                ><span class="sp">Cloudinary</span><span class="sp">JWT</span
+                ><span class="sp">Express</span>
               </div>
               <div style="display: flex; gap: 1rem">
                 <a
-                  href="#"
+                  href="https://github.com/Vishal05it/MERN-Stack-Social-Platform"
+                  target="_blank"
                   style="
                     display: flex;
                     align-items: center;
@@ -1978,7 +2561,8 @@
                   >GitHub</a
                 >
                 <a
-                  href="#"
+                  href="https://mern-stack-social-platform.vercel.app/"
+                  target="_blank"
                   style="
                     display: flex;
                     align-items: center;
@@ -2010,54 +2594,42 @@
             </div>
           </div>
 
-          <!-- P2 -->
+          <!-- P2: Next.js Blog -->
           <div
             class="rev d1 gc sh"
             style="
               background: var(--surface);
               border: 1px solid var(--border);
               border-radius: 1.25rem;
-              padding: 1.75rem 2rem;
-              display: flex;
-              flex-wrap: wrap;
-              gap: 1.5rem;
-              align-items: flex-start;
+              overflow: hidden;
             "
           >
             <div
               style="
-                width: 54px;
-                height: 54px;
-                background: linear-gradient(135deg, #1a2e1a, #1a3a2a);
-                border-radius: 14px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
+                width: 100%;
+                border-radius: 0.875rem;
+                overflow: hidden;
+                border: 1px solid var(--border);
                 flex-shrink: 0;
-                border: 1px solid rgba(255, 209, 102, 0.2);
+                max-height: 210px;
               "
             >
-              <svg
-                style="width: 24px; height: 24px"
-                fill="none"
-                stroke="url(#g2)"
-                viewBox="0 0 24 24"
-              >
-                <defs>
-                  <linearGradient id="g2" x1="0" y1="0" x2="1" y2="1">
-                    <stop offset="0%" stop-color="#FFD166" />
-                    <stop offset="100%" stop-color="#FF6B6B" />
-                  </linearGradient>
-                </defs>
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="1.5"
-                  d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
-                />
-              </svg>
+              <img
+                src="./NextBlog.jpg"
+                alt="Next.js Blog App"
+                style="
+                  width: 100%;
+                  height: 210px;
+                  object-fit: cover;
+                  object-position: top;
+                  display: block;
+                  transition: transform 0.4s ease;
+                "
+                onmouseover="this.style.transform = 'scale(1.03)'"
+                onmouseout="this.style.transform = 'scale(1)'"
+              />
             </div>
-            <div style="flex: 1; min-width: 240px">
+            <div style="padding: 1.5rem 1.75rem 1.75rem">
               <div
                 style="
                   display: flex;
@@ -2078,6 +2650,20 @@
                   Next.js Blog App
                 </h3>
                 <span
+                  style="
+                    font-size: 0.62rem;
+                    font-family: Syne;
+                    font-weight: 700;
+                    letter-spacing: 0.08em;
+                    background: rgba(107, 131, 255, 0.1);
+                    color: var(--accent);
+                    border: 1px solid rgba(107, 131, 255, 0.2);
+                    padding: 0.18rem 0.55rem;
+                    border-radius: 999px;
+                  "
+                  >PERSONAL</span
+                >
+                <span
                   class="tag"
                   style="
                     background: rgba(255, 209, 102, 0.1);
@@ -2095,9 +2681,11 @@
                   margin-bottom: 0.875rem;
                 "
               >
-                Production-ready blog with NextAuth, full CRUD, email
-                notifications via Nodemailer, and SSR/SSG hybrid architecture
-                for blazing performance.
+                Production-ready blog platform built with Next.js. Features
+                NextAuth.js authentication, full CRUD for posts and comments,
+                email notifications via Nodemailer, image uploads, post
+                categorization, and SSR/SSG hybrid architecture for blazing-fast
+                performance.
               </p>
               <div
                 style="
@@ -2110,11 +2698,12 @@
                 <span class="sp">Next.js</span><span class="sp">NextAuth</span
                 ><span class="sp">MongoDB</span
                 ><span class="sp">Nodemailer</span
-                ><span class="sp">Tailwind</span>
+                ><span class="sp">Tailwind</span><span class="sp">SSR/SSG</span>
               </div>
               <div style="display: flex; gap: 1rem">
                 <a
-                  href="#"
+                  href="https://github.com/Vishal05it/Next.js-Blog-App"
+                  target="_blank"
                   style="
                     display: flex;
                     align-items: center;
@@ -2139,7 +2728,8 @@
                   >GitHub</a
                 >
                 <a
-                  href="#"
+                  href="https://next-js-blog-app-yh8m.vercel.app/"
+                  target="_blank"
                   style="
                     display: flex;
                     align-items: center;
@@ -2171,54 +2761,42 @@
             </div>
           </div>
 
-          <!-- P3 -->
+          <!-- P3: Memories -->
           <div
             class="rev d2 gc sh"
             style="
               background: var(--surface);
               border: 1px solid var(--border);
               border-radius: 1.25rem;
-              padding: 1.75rem 2rem;
-              display: flex;
-              flex-wrap: wrap;
-              gap: 1.5rem;
-              align-items: flex-start;
+              overflow: hidden;
             "
           >
             <div
               style="
-                width: 54px;
-                height: 54px;
-                background: linear-gradient(135deg, #2e1a1a, #3a1a2a);
-                border-radius: 14px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
+                width: 100%;
+                border-radius: 0.875rem;
+                overflow: hidden;
+                border: 1px solid var(--border);
                 flex-shrink: 0;
-                border: 1px solid rgba(255, 107, 107, 0.2);
+                max-height: 210px;
               "
             >
-              <svg
-                style="width: 24px; height: 24px"
-                fill="none"
-                stroke="url(#g3)"
-                viewBox="0 0 24 24"
-              >
-                <defs>
-                  <linearGradient id="g3" x1="0" y1="0" x2="1" y2="1">
-                    <stop offset="0%" stop-color="#FF6B6B" />
-                    <stop offset="100%" stop-color="#FFD166" />
-                  </linearGradient>
-                </defs>
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="1.5"
-                  d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-                />
-              </svg>
+              <img
+                src="./Memories.jpg"
+                alt="Memories App"
+                style="
+                  width: 100%;
+                  height: 210px;
+                  object-fit: cover;
+                  object-position: top;
+                  display: block;
+                  transition: transform 0.4s ease;
+                "
+                onmouseover="this.style.transform = 'scale(1.03)'"
+                onmouseout="this.style.transform = 'scale(1)'"
+              />
             </div>
-            <div style="flex: 1; min-width: 240px">
+            <div style="padding: 1.5rem 1.75rem 1.75rem">
               <div
                 style="
                   display: flex;
@@ -2239,6 +2817,20 @@
                   Memories App
                 </h3>
                 <span
+                  style="
+                    font-size: 0.62rem;
+                    font-family: Syne;
+                    font-weight: 700;
+                    letter-spacing: 0.08em;
+                    background: rgba(107, 131, 255, 0.1);
+                    color: var(--accent);
+                    border: 1px solid rgba(107, 131, 255, 0.2);
+                    padding: 0.18rem 0.55rem;
+                    border-radius: 999px;
+                  "
+                  >PERSONAL</span
+                >
+                <span
                   class="tag"
                   style="
                     background: rgba(255, 107, 107, 0.1);
@@ -2256,9 +2848,11 @@
                   margin-bottom: 0.875rem;
                 "
               >
-                Photo memory-sharing app: upload images, write captions,
-                interact with others' posts. Cloudinary for storage, Redux for
-                state, clean responsive UI.
+                A photo memory-sharing app where users can upload images, write
+                captions, like and interact with others' posts. Features
+                Cloudinary for image storage, Context API for global state
+                management, dark/light mode toggle, and a clean purple-themed
+                responsive UI.
               </p>
               <div
                 style="
@@ -2268,13 +2862,15 @@
                   margin-bottom: 1.125rem;
                 "
               >
-                <span class="sp">React</span><span class="sp">Redux</span
+                <span class="sp">React</span><span class="sp">Context API</span
                 ><span class="sp">Cloudinary</span
-                ><span class="sp">Express</span><span class="sp">MongoDB</span>
+                ><span class="sp">Express</span><span class="sp">MongoDB</span
+                ><span class="sp">Node.js</span>
               </div>
               <div style="display: flex; gap: 1rem">
                 <a
-                  href="#"
+                  href="https://github.com/Vishal05it/Memories-App"
+                  target="_blank"
                   style="
                     display: flex;
                     align-items: center;
@@ -2299,7 +2895,8 @@
                   >GitHub</a
                 >
                 <a
-                  href="#"
+                  href="https://memories-app-jk5b.vercel.app/"
+                  target="_blank"
                   style="
                     display: flex;
                     align-items: center;
@@ -2725,7 +3322,7 @@
               <div class="sc" style="background: rgba(255, 255, 255, 0.04)">
                 <p
                   class="cnt"
-                  data-target="3"
+                  data-target="6"
                   style="
                     font-family: Syne;
                     font-weight: 800;
@@ -2733,7 +3330,7 @@
                     color: #f0f0ff;
                   "
                 >
-                  0
+                  6
                 </p>
                 <p
                   style="font-size: 0.7rem; color: #8888aa; margin-top: 0.2rem"
@@ -3049,7 +3646,9 @@
               Full-Stack Developer · MERN &amp; Next.js
             </p>
             <a
-              href="mailto:vishal@example.com"
+              href="mailto:www.vishal.tiwari007@gmail.com"
+              target="_blank"
+              title="Email"
               style="
                 font-size: 0.78rem;
                 color: #8888aa;
@@ -3060,12 +3659,14 @@
               "
               onmouseover="this.style.color = 'var(--a2)'"
               onmouseout="this.style.color = '#8888aa'"
-              >vishal@example.com</a
+              >www.vishal.tiwari007@gmail.com</a
             >
           </div>
           <div style="display: flex; align-items: center; gap: 0.625rem">
             <a
-              href="#"
+              href="https://github.com/Vishal05it"
+              title="GitHub"
+              target="_blank"
               aria-label="GitHub"
               style="
                 width: 38px;
@@ -3098,7 +3699,9 @@
                 /></svg
             ></a>
             <a
-              href="#"
+              href="https://www.linkedin.com/in/vishal-tiwari-17684822a/"
+              title="LinkedIn"
+              target="_blank"
               aria-label="LinkedIn"
               style="
                 width: 38px;
@@ -3131,7 +3734,9 @@
                 /></svg
             ></a>
             <a
-              href="mailto:vishal@example.com"
+              href="mailto:www.vishal.tiwari007@gmail.com"
+              title="Email"
+              target="_blank"
               aria-label="Email"
               style="
                 width: 38px;
@@ -3181,7 +3786,7 @@
           <p style="font-size: 0.72rem; color: #333355">
             © 2025 Vishal. All rights reserved.
           </p>
-          <p style="font-size: 0.72rem; color: #333355">
+          <p style="font-size: 0.72rem; color: #5c5c89">
             Built with precision · Designed for conversion
           </p>
         </div>
@@ -3642,7 +4247,7 @@
         ["TypeScript", "var(--a2)"],
         ["Tailwind CSS", "var(--coral)"],
         ["REST APIs", "var(--gold)"],
-        ["Redux", "var(--accent)"],
+        ["Context API", "var(--accent)"],
         ["JWT Auth", "var(--a2)"],
       ];
       function buildMQ(id) {
@@ -3663,7 +4268,7 @@
         ["MongoDB", "rgba(255,209,102,.2)", "rgba(255,209,102,.8)"],
         ["TypeScript", "rgba(255,107,107,.2)", "rgba(255,107,107,.8)"],
         ["Tailwind", "rgba(107,131,255,.2)", "rgba(107,131,255,.8)"],
-        ["Redux", "rgba(125,249,255,.2)", "rgba(125,249,255,.8)"],
+        ["Context API", "rgba(125,249,255,.2)", "rgba(125,249,255,.8)"],
         ["JWT", "rgba(255,209,102,.2)", "rgba(255,209,102,.8)"],
         ["REST API", "rgba(255,107,107,.2)", "rgba(255,107,107,.8)"],
         ["Git", "rgba(107,131,255,.2)", "rgba(107,131,255,.8)"],
